@@ -15,12 +15,12 @@ x = wIE * rE - wII * rI + iI;
 %response function
 switch type
     case 'sigmoid'
-        y = 1 / (1 + exp( -slopeI(x - thresholdI))) - 1 / (1 + exp(slopeI * thresholdI));       
+        y = 1 / (1 + exp( -slopeI * (x - thresholdI))) - 1 / (1 + exp(slopeI * thresholdI));       
     case 'powerlaw'
         if x < thresholdI
             y = 0;
         else
-            y = slopeI(x - thresholdI)^3;
+            y = slopeI * (x - thresholdI)^3;
         end
         if y > 1
             y = 1;

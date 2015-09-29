@@ -15,14 +15,14 @@ x = wEE * rE - wEI * rI + iE;
 %response function
 switch type
     case 'sigmoid'
-        y = 1 / (1 + exp( -slopeE(x - thresholdE))) - 1 / (1 + exp(slopeE * thresholdE));       
+        y = 1 / (1 + exp( -slopeE * (x - thresholdE))) - 1 / (1 + exp(slopeE * thresholdE));       
     case 'linear'
         if x < thresholdE
             y = 0;
         elseif x > (thresholdE + 1/slopeE)
             y = 1;
         else
-            y = slopeE(x - thresholdE);
+            y = slopeE * (x - thresholdE);
         end
     otherwise
         error('Invalid response function type for excitatory population.');
