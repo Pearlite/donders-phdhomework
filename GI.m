@@ -1,5 +1,5 @@
-function [ y ] = GI ( wIE, rE, wII, rI, iI, type )
-%This function gives the inhibitory response function of the simplified
+function [ y ] = GI ( wIE, rE, wII, rI, iI, type, slopeI, thresholdI )
+%GI This function gives the excitatory response function of the simplified
 %firing rate model as described in Jadi & Sejnowski (2014).
 %Inputs:
 % wII, wIE = connection strengths between populations, positive integers
@@ -8,17 +8,6 @@ function [ y ] = GI ( wIE, rE, wII, rI, iI, type )
 % type = the type of response function (sigmoid or powerlaw)
 %Outputs:
 % y = proportion of population cells firing, integer
-
-if numargs == 0
-    %defaults taken from Jadi & Sejnowski (2014) appendix C.
-    %Note that these are the defaults for the sigmoid function. Defaults
-    %for the powerlaw function are different.
-    wIE = 20;
-    wII = 1;
-    slopeI = 1;
-    thresholdI = 20;
-    type = 'sigmoid';
-end
 
 %input to the inhibitory response function
 x = wIE * rE - wII * rI + iI;

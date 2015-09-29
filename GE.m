@@ -1,5 +1,5 @@
-function [ y ] = GE ( wEE, rE, wEI, rI, iE, type )
-%This function gives the excitatory response function of the simplified
+function [ y ] = GE ( wEE, rE, wEI, rI, iE, type, slopeE, thresholdE )
+%GE This function gives the excitatory response function of the simplified
 %firing rate model as described in Jadi & Sejnowski (2014).
 %Inputs:
 % wEE, wEI = connection strengths between populations, positive integers
@@ -8,17 +8,6 @@ function [ y ] = GE ( wEE, rE, wEI, rI, iE, type )
 % type = the type of response function (sigmoid or linear)
 %Outputs:
 % y = proportion of population cells firing, integer
-
-if numargs == 0
-    %defaults taken from Jadi & Sejnowski (2014) appendix C.
-    %Note that these are the defaults for the sigmoid function. Defaults
-    %for the linear function are different.
-    wEE = 16;
-    wEI = 26;
-    slopeE = 1;
-    thresholdE = 5;
-    type = 'sigmoid';
-end
 
 %input to the excitatory response function
 x = wEE * rE - wEI * rI + iE;
