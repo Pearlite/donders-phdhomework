@@ -1,8 +1,33 @@
-%%%%%CONFIGURATION FILE%%%%%
-% This file calls RunNetwork with the parameters defined within.
-% Default values here are taken from Jadi & Sejnowski (2014) or arbitrarily
-% chosen. This file can be used instead of using the pre-defined parameter
-% variations in Plots.m.
+%%%%%PLOTS FILE%%%%%
+%This file calls RunNetwork with the parameters necessary to generate a
+%number of plots characterizing the effects of network A input on network B
+%activation and the synchrony between nets A and B.
+
+%%
+%%%%%PLOT 1%%%%%%
+% Brief input to net A simulated.
+%
+
+%%
+%%%%%PLOT 2%%%%%
+%
+%
+
+%%
+%%%%%PLOT 3%%%%%
+%
+%
+
+%%
+%%%%%PLOT 4%%%%%
+%
+%
+
+%%
+%%%%%PLOT 5%%%%%
+%
+%
+
 
 % timesteps = number of population activation update cycles. Takes integer.
 timesteps = 50;
