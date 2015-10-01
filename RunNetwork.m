@@ -120,7 +120,7 @@ nodeI{2}(1:timesteps) = 0;
 % Current setup: E-population net B receives unidirectional input from
 % E-population net A. Net B receives no other external input (iI and iE for
 % net B are 0).
-for t = 1:timesteps
+for t = 1:timesteps-1
     nodeE{1}(t+1) = GE(wEE{1}(t), nodeE{1}(t), wEI{1}(t), nodeI{1}(t), iE(t), typeE, slopeE, thresholdE);
     nodeI{1}(t+1) = GI(wIE{1}(t), nodeE{1}(t), wII{1}(t), nodeI{1}(t), iI(t), typeI, slopeI, thresholdI);
     nodeE{2}(t+1) = GE(wEE{2}(t), nodeE{2}(t), wEI{2}(t), nodeI{2}(t), (wAB(t) * nodeE{1}(t)), typeE, slopeE, thresholdE);
