@@ -145,9 +145,67 @@ clear;
 %%%%%PLOT 3%%%%%
 % Brief input to net A simulated for a duration of t=30 (from timestep 21
 % to 50).
-% Input strength iE set to 10 (default).
-% Input strength iI set to 10 (default).
-% Connectivity strength between Networks A and B varied from 0 to 20.
+% Input strength iE varied from 0 to 20.
+% Input strength iI set to 12 (roughly mimicking Jadi & Sejnowski Fig. 3a)
+% Connectivity strength wAB between networks set to 3.
+
+iI = 12;
+wAB = 3;
+
+counter = 0;
+
+for k = 1:0.2:21
+    iE = k-1;
+    counter = counter + 1;
+    [nodeE_temp, nodeI_temp] = RunNetwork ( timesteps, iE, iI, wEE, wEI, wIE, wII, wAB, ...
+        slopeE, slopeI, thresholdE, thresholdI, typeE, typeI );
+    for i = 1:2
+        nodeE{i}.iE(counter) = iE;
+        nodeE{i}.firingrate(counter, 1:numel(nodeE_temp{i})) = nodeE_temp{i};
+        
+        nodeI{i}.iE(counter) = iE;
+        nodeI{i}.firingrate(counter, 1:numel(nodeI_temp{i})) = nodeI_temp{i};
+    end
+end
+
+%plot average firing rate over entire duration against iE value
+figure;
+plot(nodeE{2}.iE, mean(nodeE{2}.firingrate,2));
+
+figure;
+plot(nodeI{2}.iE, mean(nodeI{2}.firingrate,2));
+
+%plot moving coherence (over window of 10 timesteps) between net A node E 
+%and net B node E as a function of iE
+coherence = zeros(numel(1:0.2:21), 129);
+for i = 1:numel(1:0.2:21)
+    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),10)';
+end
+
+figure;
+pcolor(1:129, nodeE{2}.iE, coherence);
+
+clear;
+
+%%
+%%%%%PLOT 3%%%%%
+% Brief input to net A simulated for a duration of t=30 (from timestep 21
+% to 50).
+% Input strength iE set to 8 (roughly mimicking Jadi & Sejnowski Fig. 3a)
+% Input strength iI set to 12 (roughly mimicking Jadi & Sejnowski Fig. 3a)
+% Connectivity strength wAB between networks varied from 0 to 20.
+% The line graphs show the mean firing rate for network B node E 
+% respectively node I for different values of wAB. The color plot shows
+% the evolution of coherence over time between the E-populations of net A 
+% and net B. The color plot appears as a "sideways" version of the line
+% plots: for low (<2) values of wAB, firing rate in net B is largely
+% unaffected ...
+% for high (>10) values of wAB, the firing rate of the E-population in net
+% B has synchronized with net A as much as possible and coherence is high.
+%How to explain the low-coherence bands?
+
+iE = 8;
+iI = 12;
 
 counter = 0;
 
@@ -173,19 +231,14 @@ plot(nodeE{2}.wAB, mean(nodeE{2}.firingrate,2));
 figure;
 plot(nodeI{2}.wAB, mean(nodeI{2}.firingrate,2));
 
+%plot moving coherence (over window of 10 timesteps) between net A node E 
+%and net B node E as a function of wAB
+coherence = zeros(numel(1:0.2:21), 129);
+for i = 1:numel(1:0.2:21)
+    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),10)';
+end
 
 figure;
-plot(nodeE{2}.wAB, nodeE{2}.firingrate);
-
-figure;
-plot(nodeI{2}.wAB, mean(nodeI{2}.firingrate,2));
-
-%cross-correlation between signals
-a = xcorr(nodeE{1}.firingrate(30,:), nodeE{2}.firingrate(30,:));
+pcolor(1:129, nodeE{2}.wAB, coherence);
 
 clear;
-
-%%
-%%%%%PLOT 4%%%%%
-%input duration varied
-%
