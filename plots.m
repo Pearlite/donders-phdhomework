@@ -72,10 +72,24 @@ end
 firingrateE = reshape(mean(nodeE{1}.firingrate(:, 51:100),2), numel(0:0.2:20), numel(0:0.2:20));
 figure;
 pcolor(firingrateE);
+colorbar;
+title('E-population mean firing rate over timesteps 51-100 as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 firingrateI = reshape(mean(nodeI{1}.firingrate(:, 51:100),2), numel(0:0.2:20), numel(0:0.2:20));
 figure;
 pcolor(firingrateI);
+colorbar;
+title('I-population mean firing rate over timesteps 51-100 as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 clear;
 
@@ -92,7 +106,7 @@ clear;
 %(node E and I) as a function of the input values. The net A graphs are
 % nearly identical to the proof-of-principle graphs from the previous
 % section. This suggests that taking the mean of the entire timeseries given
-% brief input (done in this section) is nearly indistinguishable from taking 
+% brief input (done in this section) produces negligible differences from taking 
 % the mean over the stable-firing part of the timeseries given constant
 % input (done in the previous section). This knowledge allows us to simplify 
 % our analyses, taking one general mean (and thus condensing a timeseries 
@@ -126,18 +140,46 @@ end
 firingrateEA = reshape(mean(nodeE{1}.firingrate,2), numel(1:0.2:21), numel(1:0.2:21));
 figure;
 pcolor(firingrateEA);
+colorbar;
+title('Net A E-population mean firing rate as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 firingrateIA = reshape(mean(nodeI{1}.firingrate,2), numel(1:0.2:21), numel(1:0.2:21));
 figure;
 pcolor(firingrateIA);
+colorbar;
+title('Net A I-population mean firing rate as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 firingrateEB = reshape(mean(nodeE{2}.firingrate,2), numel(1:0.2:21), numel(1:0.2:21));
 figure;
 pcolor(firingrateEB);
+colorbar;
+title('Net B E-population mean firing rate as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 firingrateIB = reshape(mean(nodeI{2}.firingrate,2), numel(1:0.2:21), numel(1:0.2:21));
 figure;
 pcolor(firingrateIB);
+colorbar;
+title('Net B I-population mean firing rate as a function of inputs iE and iI');
+xlabel('Excitatory input (iE)');
+ylabel('Inhibitory input (iI)');
+ax = gca;
+set(ax,'XTickLabel',{4,8,12,16,20});
+set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 
 clear;
 
@@ -171,9 +213,17 @@ end
 %plot average firing rate over entire duration against iE value
 figure;
 plot(nodeE{2}.iE, mean(nodeE{2}.firingrate,2));
+axis([0 20 0 1]);
+title('Net B E-population mean firing rate as a function of input iE');
+xlabel('Excitatory input (iE)');
+ylabel('Mean firing rate');
 
 figure;
 plot(nodeI{2}.iE, mean(nodeI{2}.firingrate,2));
+axis([0 20 0 1]);
+title('Net B I-population mean firing rate as a function of input iE');
+xlabel('Excitatory input (iE)');
+ylabel('Mean firing rate');
 
 %plot moving coherence (over window of 10 timesteps) between net A node E 
 %and net B node E as a function of iE
@@ -184,6 +234,10 @@ end
 
 figure;
 pcolor(1:129, nodeE{2}.iE, coherence);
+colorbar;
+title('Coherence over time between E-populations Net A and Net B as a function of input iE');
+xlabel('Coherence over time');
+ylabel('Excitatory input (iE)');
 
 clear;
 
@@ -227,9 +281,18 @@ end
 %weight
 figure;
 plot(nodeE{2}.wAB, mean(nodeE{2}.firingrate,2));
+axis([0 20 0 1]);
+title('Net B E-population mean firing rate as a function of connection strength wAB');
+xlabel('Connection strength between populations (wAB)');
+ylabel('Mean firing rate');
 
 figure;
 plot(nodeI{2}.wAB, mean(nodeI{2}.firingrate,2));
+axis([0 20 0 1]);
+axis([0 20 0 1]);
+title('Net B I-population mean firing rate as a function of connection strength wAB');
+xlabel('Connection strength between populations (wAB)');
+ylabel('Mean firing rate');
 
 %plot moving coherence (over window of 10 timesteps) between net A node E 
 %and net B node E as a function of wAB
@@ -240,5 +303,9 @@ end
 
 figure;
 pcolor(1:129, nodeE{2}.wAB, coherence);
+colorbar;
+title('Coherence over time between E-populations Net A and Net B as a function of connection strength wAB');
+xlabel('Coherence over time');
+ylabel('Connection strength between populations (wAB)');
 
 clear;
