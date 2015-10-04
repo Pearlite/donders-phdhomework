@@ -184,21 +184,23 @@ clear;
 % Input strength iI set to 12 (roughly mimicking Jadi & Sejnowski Fig. 3a)
 % Connectivity strength wAB between networks set to 3.
 
-iI = 12;
+iE = zeros(1, timesteps);
+iI = zeros(1, timesteps);
+iI(21:50) = 12;
 wAB = 3;
 
 counter = 0;
 
 for k = 1:0.2:21
-    iE = k-1;
+    iE(21:50) = k-1;
     counter = counter + 1;
     [nodeE_temp, nodeI_temp] = RunNetwork ( timesteps, iE, iI, wEE, wEI, wIE, wII, wAB, ...
         slopeE, slopeI, thresholdE, thresholdI, typeE, typeI );
     for i = 1:2
-        nodeE{i}.iE(counter) = iE;
+        nodeE{i}.iE(counter) = iE(22);
         nodeE{i}.firingrate(counter, 1:numel(nodeE_temp{i})) = nodeE_temp{i};
         
-        nodeI{i}.iE(counter) = iE;
+        nodeI{i}.iE(counter) = iE(22);
         nodeI{i}.firingrate(counter, 1:numel(nodeI_temp{i})) = nodeI_temp{i};
     end
 end
@@ -260,8 +262,10 @@ clear;
 % the evolution of coherence over time between the E-populations of net A 
 % and net B.
 
-iE = 8;
-iI = 12;
+iE = zeros(1, timesteps);
+iI = zeros(1, timesteps);
+iE(21:50) = 8;
+iI(21:50) = 12;
 
 counter = 0;
 
