@@ -46,10 +46,11 @@ typeE = 'sigmoid';
 typeI = 'sigmoid';
 
 %%
-%%%%%PLOT 1%%%%%%
+%%%%%SIMULATION 1%%%%%%
 % Replication of plots from Figure 3 in Jadi & Sejnowski (2014) as proof of
 % principle. The graphs are only generated for network A; network B data is
 % left out.
+
 counter = 0;
 
 for iE = 0:0.2:20
@@ -97,21 +98,13 @@ clear;
 %most likely on account of different input scaling.
 
 %%
-%%%%%PLOT 2%%%%%%
+%%%%%SIMULATION 2%%%%%%
 % Brief input to net A simulated for a duration of t=30 (from timestep 21
 % to 50).
 % Input strength iE varied from 0 to 20.
 % Input strength iI varied from 0 to 20.
 % The four plots show mean firing rate for net A (node E and I) and net B 
-%(node E and I) as a function of the input values. The net A graphs are
-% nearly identical to the proof-of-principle graphs from the previous
-% section. This suggests that taking the mean of the entire timeseries given
-% brief input (done in this section) produces negligible differences from taking 
-% the mean over the stable-firing part of the timeseries given constant
-% input (done in the previous section). This knowledge allows us to simplify 
-% our analyses, taking one general mean (and thus condensing a timeseries 
-% into a single value, facilitating plotting) rather than arbitrarily 
-% defining a "valid" range within the timeseries.
+%(node E and I) as a function of the input values.
 
 counter = 0;
 
@@ -184,7 +177,7 @@ set(ax,'YTickLabel',{2,4,6,8,10,12,14,16,18,20});
 clear;
 
 %%
-%%%%%PLOT 3%%%%%
+%%%%%SIMULATION 3%%%%%
 % Brief input to net A simulated for a duration of t=30 (from timestep 21
 % to 50).
 % Input strength iE varied from 0 to 20.
@@ -212,6 +205,20 @@ end
 
 %plot average firing rate over entire duration against iE value
 figure;
+plot(nodeE{1}.iE, mean(nodeE{1}.firingrate,2));
+axis([0 20 0 1]);
+title('Net A E-population mean firing rate as a function of input iE');
+xlabel('Excitatory input (iE)');
+ylabel('Mean firing rate');
+
+figure;
+plot(nodeI{1}.iE, mean(nodeI{1}.firingrate,2));
+axis([0 20 0 1]);
+title('Net A I-population mean firing rate as a function of input iE');
+xlabel('Excitatory input (iE)');
+ylabel('Mean firing rate');
+
+figure;
 plot(nodeE{2}.iE, mean(nodeE{2}.firingrate,2));
 axis([0 20 0 1]);
 title('Net B E-population mean firing rate as a function of input iE');
@@ -225,11 +232,11 @@ title('Net B I-population mean firing rate as a function of input iE');
 xlabel('Excitatory input (iE)');
 ylabel('Mean firing rate');
 
-%plot moving coherence (over window of 10 timesteps) between net A node E 
+%plot moving coherence (over default Hamming window for 8 sections) between net A node E 
 %and net B node E as a function of iE
 coherence = zeros(numel(1:0.2:21), 129);
 for i = 1:numel(1:0.2:21)
-    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),10)';
+    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),[])';
 end
 
 figure;
@@ -242,7 +249,7 @@ ylabel('Excitatory input (iE)');
 clear;
 
 %%
-%%%%%PLOT 3%%%%%
+%%%%%SIMULATION 4%%%%%
 % Brief input to net A simulated for a duration of t=30 (from timestep 21
 % to 50).
 % Input strength iE set to 8 (roughly mimicking Jadi & Sejnowski Fig. 3a)
@@ -251,12 +258,7 @@ clear;
 % The line graphs show the mean firing rate for network B node E 
 % respectively node I for different values of wAB. The color plot shows
 % the evolution of coherence over time between the E-populations of net A 
-% and net B. The color plot appears as a "sideways" version of the line
-% plots: for low (<2) values of wAB, firing rate in net B is largely
-% unaffected ...
-% for high (>10) values of wAB, the firing rate of the E-population in net
-% B has synchronized with net A as much as possible and coherence is high.
-%How to explain the low-coherence bands?
+% and net B.
 
 iE = 8;
 iI = 12;
@@ -289,16 +291,15 @@ ylabel('Mean firing rate');
 figure;
 plot(nodeI{2}.wAB, mean(nodeI{2}.firingrate,2));
 axis([0 20 0 1]);
-axis([0 20 0 1]);
 title('Net B I-population mean firing rate as a function of connection strength wAB');
 xlabel('Connection strength between populations (wAB)');
 ylabel('Mean firing rate');
 
-%plot moving coherence (over window of 10 timesteps) between net A node E 
+%plot moving coherence (over default Hamming window for 8 sections) between net A node E 
 %and net B node E as a function of wAB
 coherence = zeros(numel(1:0.2:21), 129);
 for i = 1:numel(1:0.2:21)
-    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),10)';
+    coherence(i,:) = mscohere(nodeE{1}.firingrate(i,:), nodeE{2}.firingrate(i,:),[])';
 end
 
 figure;
